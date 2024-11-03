@@ -1,5 +1,3 @@
-
-
 import streamlit as st
 from transformers import pipeline
 
@@ -7,7 +5,7 @@ from transformers import pipeline
 background_image_url = "https://images5.alphacoders.com/373/thumb-1920-373394.png"
 # กำหนดสีที่ต้องการ
 text_color = "#FF0000"  # สีที่คุณต้องการ
- 
+
 # ใส่ CSS สำหรับพื้นหลังและสีตัวอักษร
 st.markdown(
     f"""
@@ -36,6 +34,10 @@ st.title("Thai Sentiment Analysis App")
 # Input text
 text_input = st.text_area("Enter Thai text for sentiment analysis", "ขอความเห็นหน่อย... ")
 
+# Initialize session state for history
+if 'history' not in st.session_state:
+    st.session_state.history = []
+
 # Button to trigger analysis
 if st.button("Analyze Sentiment"):
     # Analyze sentiment using the model
@@ -45,10 +47,11 @@ if st.button("Analyze Sentiment"):
     sentiment = results[0]['label']
     score = results[0]['score']
     
+    # Store the input text and result in history
+    st.session_state.history.append((text_input, sentiment, score))
 
     # Display result as progress bars
     st.subheader("Sentiment Analysis Result:")
-
     if sentiment == 'pos':
         st.success(f"Positive Sentiment (Score: {score:.2f})")
         st.progress(score)
@@ -58,3 +61,8 @@ if st.button("Analyze Sentiment"):
     else:
         st.warning(f"Neutral Sentiment (Score: {score:.2f})")
         st.progress(score)
+
+# Display search history
+st.subheader("Search History:")
+for idx, (text, sentiment, score) in enumerate(st.session_state.history):
+    st.write(f"{idx + 1}. {text} - Sentiment: {sentiment}, Score: {score:.2f}")
