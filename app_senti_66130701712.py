@@ -6,7 +6,7 @@ from transformers import pipeline
 # กำหนด URL หรือเส้นทางของภาพพื้นหลัง
 background_image_url = "https://images5.alphacoders.com/373/thumb-1920-373394.png"
 # กำหนดสีที่ต้องการ
-text_color = "#CC3300"  # สีที่คุณต้องการ
+text_color = "#FFFFFF"  # สีที่คุณต้องการ
  
 # ใส่ CSS สำหรับพื้นหลังและสีตัวอักษร
 st.markdown(
